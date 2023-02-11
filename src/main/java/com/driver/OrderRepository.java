@@ -8,23 +8,26 @@ import java.util.List;
 
 public class OrderRepository {
     HashMap<String ,Order> orderMap= new HashMap<>();
-    HashMap<String,Integer>partnerMap = new HashMap<>();
-    HashMap<String , List<String>>orderpartnerRelMap = new HashMap<>();
+    HashMap<String,DeliveryPartner>partnerMap = new HashMap<>();
+    HashMap<String , ArrayList<String>>orderpartnerRelMap = new HashMap<>();
     public String addOrder(Order order) {
         orderMap.put(order.getId(),order);
         return "Successfully added";
     }
 
     public String addPartner(String partnerId) {
-        partnerMap.put(partnerId,partnerMap.getOrDefault(partnerId,0)+1);
+        DeliveryPartner deliverypartner= new DeliveryPartner(partnerId);
+
+
+        partnerMap.put(partnerId,deliverypartner);
         return "done";
 
     }
 
     public String addOrderPartnerPair(String orderId, String partnerId) {
-       ArrayList<String > partnerlist= (ArrayList<String>) orderpartnerRelMap.getOrDefault(orderId,new ArrayList<>());
-       partnerlist.add(partnerId);
-       orderpartnerRelMap.put(orderId,partnerlist);
+       ArrayList<String > orderlist=  orderpartnerRelMap.getOrDefault(partnerId,new ArrayList<>());
+       orderlist.add(partnerId);
+       orderpartnerRelMap.put(partnerId,orderlist);
         return "done";
     }
 
@@ -32,5 +35,42 @@ public class OrderRepository {
 
             return orderMap.get(orderId);
 
+    }
+
+
+    public DeliveryPartner getPartnerById(String partnerId) {
+       return partnerMap.get(partnerId);
+    }
+
+    public Integer getOrderCountByPartnerId(String partnerId) {
+        List<String>list =  orderpartnerRelMap.get(partnerId);
+        return list.size();
+    }
+
+    public List<String> getOrdersByPartnerId(String partnerId) {
+       return orderpartnerRelMap.get(partnerId);
+
+    }
+
+    public List<String> getAllOrders() {
+        ArrayList<String>orders = new ArrayList<>();
+        for(String s:orderMap.keySet()){
+            orders.add(s);
+        }
+        return orders;
+
+
+    }
+
+    public Integer getCountOfUnassignedOrders() {
+        int temp =0;
+        int temp2=0;
+        for(ArrayList<String > s: orderpartnerRelMap.values()){
+         temp+=s.size();
+        }
+        for(String s:orderMap.keySet()){
+            temp2++;
+        }
+        return temp-temp2;
     }
 }
