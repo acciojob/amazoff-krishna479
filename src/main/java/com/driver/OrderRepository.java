@@ -73,4 +73,21 @@ public class OrderRepository {
         }
         return temp-temp2;
     }
+
+    public Integer getOrdersLeftAfterGivenTimeByPartnerId(String time, String partnerId) {
+        return 0;
+    }
+
+    public String getLastDeliveryTimeByPartnerId(String partnerId) {
+        return "0";
+    }
+
+    public String deletePartnerById(String partnerId) {
+        return "successfully done";
+    }
+
+    public String deleteOrderById(String orderId) {
+        orderMap.remove(orderId);
+        return "success";
+    }
 }
