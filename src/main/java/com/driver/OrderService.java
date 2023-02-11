@@ -54,11 +54,11 @@ public class OrderService {
        return orderRepository.getLastDeliveryTimeByPartnerId(partnerId);
     }
 
-    public String deletePartnerById(String partnerId) {
-       return  orderRepository.deletePartnerById(partnerId);
+    public void deletePartnerById(String partnerId) {
+         orderRepository.deletePartnerById(partnerId);
     }
 
-    public String deleteOrderById(String orderId) {
-       return orderRepository.deleteOrderById(orderId);
+    public void deleteOrderById(String orderId) {
+       orderRepository.deleteOrderById(orderId);
     }
 }

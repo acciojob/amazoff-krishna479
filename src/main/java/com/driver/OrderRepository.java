@@ -82,12 +82,12 @@ public class OrderRepository {
         return "0";
     }
 
-    public String deletePartnerById(String partnerId) {
-        return "successfully done";
+    public void deletePartnerById(String partnerId) {
+
     }
 
-    public String deleteOrderById(String orderId) {
+    public void deleteOrderById(String orderId) {
         orderMap.remove(orderId);
-        return "success";
+
     }
 }
