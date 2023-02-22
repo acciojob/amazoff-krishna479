@@ -18,27 +18,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("orders")
 public class OrderController {
+@Autowired
+OrderService orderService;
 
-OrderService orderservice = new OrderService();
     @PostMapping("/add-order")
     public ResponseEntity<String> addOrder(@RequestBody Order order){
-        orderservice.addOrder(order);
-
+        orderService.addOrder(order);
         return new ResponseEntity<>("New order added successfully", HttpStatus.CREATED);
     }
 
     @PostMapping("/add-partner/{partnerId}")
     public ResponseEntity<String> addPartner(@PathVariable String partnerId){
-
-        orderservice.addPartner(partnerId);
+        orderService.addPartner(partnerId);
         return new ResponseEntity<>("New delivery partner added successfully", HttpStatus.CREATED);
     }
 
     @PutMapping("/add-order-partner-pair")
     public ResponseEntity<String> addOrderPartnerPair(@RequestParam String orderId, @RequestParam String partnerId){
 
+        orderService.addOrderPartnerPair(orderId,partnerId);
+
         //This is basically assigning that order to that partnerId
-        orderservice.addOrderPartnerPair(orderId,partnerId);
         return new ResponseEntity<>("New order-partner pair added successfully", HttpStatus.CREATED);
     }
 
@@ -46,8 +46,8 @@ OrderService orderservice = new OrderService();
     public ResponseEntity<Order> getOrderById(@PathVariable String orderId){
 
         Order order= null;
+        order = orderService.getOrderById(orderId);
         //order should be returned with an orderId.
-        order =  orderservice.getOrderById(orderId);
 
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
@@ -57,7 +57,8 @@ OrderService orderservice = new OrderService();
 
         DeliveryPartner deliveryPartner = null;
 
-        deliveryPartner = orderservice.getPartnerById(partnerId);
+        deliveryPartner = orderService.getPartnerById(partnerId);
+
         //deliveryPartner should contain the value given by partnerId
 
         return new ResponseEntity<>(deliveryPartner, HttpStatus.CREATED);
@@ -67,7 +68,7 @@ OrderService orderservice = new OrderService();
     public ResponseEntity<Integer> getOrderCountByPartnerId(@PathVariable String partnerId){
 
         Integer orderCount = 0;
-orderCount = OrderService.getOrderCountByPartnerId(partnerId);
+        orderCount = orderService.getOrderCountByPartnerId(partnerId);
 
         //orderCount should denote the orders given by a partner-id
 
@@ -75,29 +76,28 @@ orderCount = OrderService.getOrderCountByPartnerId(partnerId);
     }
 
     @GetMapping("/get-orders-by-partner-id/{partnerId}")
-    public ResponseEntity<List<String>> getOrdersByPartnerId(@PathVariable String partnerId){
-        List<String> orders = null;
-       orders =  orderservice.getOrdersByPartnerId(partnerId);
+    public ResponseEntity<List<Order>> getOrdersByPartnerId(@PathVariable String partnerId){
+        List<Order> orders = null;
 
         //orders should contain a list of orders by PartnerId
+        orders = orderService.getOrdersByPartnerId(partnerId);
 
         return new ResponseEntity<>(orders, HttpStatus.CREATED);
     }
 
     @GetMapping("/get-all-orders")
-    public ResponseEntity<List<String>> getAllOrders(){
-        List<String> orders = null;
-      orders=  orderservice.getAllOrders();
-
+    public ResponseEntity<List<Order>> getAllOrders(){
+        List<Order> orders = null;
+orders = orderService.getAllOrders();
         //Get all orders
         return new ResponseEntity<>(orders, HttpStatus.CREATED);
     }
 
     @GetMapping("/get-count-of-unassigned-orders")
     public ResponseEntity<Integer> getCountOfUnassignedOrders(){
-        Integer countOfOrders = 0;
-        countOfOrders =  orderservice.getCountOfUnassignedOrders();
 
+        Integer countOfOrders = 0;
+countOfOrders = orderService.getCountOfUnassignedOrders();
         //Count of orders that have not been assigned to any DeliveryPartner
 
         return new ResponseEntity<>(countOfOrders, HttpStatus.CREATED);
@@ -107,7 +107,6 @@ orderCount = OrderService.getOrderCountByPartnerId(partnerId);
     public ResponseEntity<Integer> getOrdersLeftAfterGivenTimeByPartnerId(@PathVariable String time, @PathVariable String partnerId){
 
         Integer countOfOrders = 0;
-        countOfOrders = orderservice.getOrdersLeftAfterGivenTimeByPartnerId(time,partnerId);
 
         //countOfOrders that are left after a particular time of a DeliveryPartner
 
@@ -117,8 +116,6 @@ orderCount = OrderService.getOrderCountByPartnerId(partnerId);
     @GetMapping("/get-last-delivery-time/{partnerId}")
     public ResponseEntity<String> getLastDeliveryTimeByPartnerId(@PathVariable String partnerId){
         String time = null;
-        time =orderservice.getLastDeliveryTimeByPartnerId(partnerId);
-
 
         //Return the time when that partnerId will deliver his last delivery order.
 
@@ -130,7 +127,6 @@ orderCount = OrderService.getOrderCountByPartnerId(partnerId);
 
         //Delete the partnerId
         //And push all his assigned orders to unassigned orders.
-        orderservice.deletePartnerById(partnerId);
 
         return new ResponseEntity<>(partnerId + " removed successfully", HttpStatus.CREATED);
     }
@@ -140,7 +136,6 @@ orderCount = OrderService.getOrderCountByPartnerId(partnerId);
 
         //Delete an order and also
         // remove it from the assigned order of that partnerId
-        orderservice.deleteOrderById(orderId);
 
         return new ResponseEntity<>(orderId + " removed successfully", HttpStatus.CREATED);
     }
