@@ -102,6 +102,18 @@ countOfOrders = orderService.getCountOfUnassignedOrders();
 
         return new ResponseEntity<>(countOfOrders, HttpStatus.CREATED);
     }
+    @GetMapping("/get-count-of-orders-left-after-given-time/{partnerId}")
+    public ResponseEntity<Integer> getOrdersLeftAfterGivenTimeByPartnerId(@PathVariable String time, @PathVariable String partnerId){
+
+        Integer countOfOrders = 0;
+        countOfOrders = orderService.getOrdersLeftAfterGivenTimeByPartnerId(time,partnerId);
+
+        //countOfOrders that are left after a particular time of a DeliveryPartner
+
+        return new ResponseEntity<>(countOfOrders, HttpStatus.CREATED);
+    }
+
+
 
 
 }
