@@ -68,10 +68,11 @@ return "done";
 
     }
 
-    public List<Order> getAllOrders() {
-        List<Order>list = new ArrayList<>();
-        for(Order order:orderMap.values()){
-            list.add(order);
+    public List<String> getAllOrders() {
+        List<String>list = new ArrayList<>();
+        for(String s:orderMap.keySet())
+        {
+            list.add(s);
         }
         return list;
     }

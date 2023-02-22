@@ -86,8 +86,8 @@ OrderService orderService;
     }
 
     @GetMapping("/get-all-orders")
-    public ResponseEntity<List<Order>> getAllOrders(){
-        List<Order> orders = null;
+    public ResponseEntity<List<String>> getAllOrders(){
+        List<String> orders = null;
 orders = orderService.getAllOrders();
         //Get all orders
         return new ResponseEntity<>(orders, HttpStatus.CREATED);

@@ -39,7 +39,7 @@ OrderRepository orderRepository;
         return orderRepository.getOrdersByPartnerId(partnerId);
     }
 
-    public List<Order> getAllOrders() {
+    public List<String> getAllOrders() {
         return  orderRepository.getAllOrders();
     }
 
