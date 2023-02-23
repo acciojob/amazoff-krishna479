@@ -76,8 +76,8 @@ OrderService orderService;
     }
 
     @GetMapping("/get-orders-by-partner-id/{partnerId}")
-    public ResponseEntity<List<Order>> getOrdersByPartnerId(@PathVariable String partnerId){
-        List<Order> orders = null;
+    public ResponseEntity<List<String>> getOrdersByPartnerId(@PathVariable String partnerId){
+        List<String> orders = null;
 
         //orders should contain a list of orders by PartnerId
         orders = orderService.getOrdersByPartnerId(partnerId);

@@ -9,12 +9,18 @@ public class Order {
     private int deliveryTime;
 
     public Order(String id, String deliveryTime) {
-        String   stringHours = String.valueOf(deliveryTime.charAt(0) + deliveryTime.charAt(1));
-        int hours = Integer.parseInt(stringHours);
+        String   stringHours1 = String.valueOf(deliveryTime.charAt(0) );
+        String stringHours2 =String.valueOf(deliveryTime.charAt(1));
+        String ans1=        stringHours1+stringHours2;
+        int hours = Integer.parseInt(ans1);
+
         hours=hours*60;
-        String  stringMinutes = String.valueOf(deliveryTime.charAt(3)+deliveryTime.charAt(4));
-        int minutes= Integer.parseInt(stringMinutes);
+        String  stringMinutes1 = String.valueOf(deliveryTime.charAt(3));
+        String stringMinutes2=String.valueOf(deliveryTime.charAt(4));
+        int minutes= Integer.parseInt(stringMinutes1+stringMinutes2);
         int ans =hours+minutes;
+
+
         this.id = id ;
         this.deliveryTime = ans;
 //HH:MM;
@@ -26,13 +32,34 @@ public class Order {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
-    public void setDeliveryTime(int ans) {
-        this.deliveryTime = deliveryTime;
-    }
+
+   public static int getTimeAsInt(String deliveryTime){
+        return  (Integer.parseInt(deliveryTime.substring(0,2))*60)+ Integer.parseInt(deliveryTime.substring(3));
+   }
+
+   public static String getTimeAsString(int deliveryTime){
+        int hours = deliveryTime/60;
+        int min = deliveryTime%60;
+
+       String hrStr="";
+       String minStr="";
+       if(hours<10){
+           hrStr="0"+hours;
+       }
+       else{
+           hrStr=""+hours;
+       }
+
+       if(min<10){
+           minStr="0"+min;
+       }
+       else{
+           minStr=""+min;
+       }
+
+       return hrStr+":"+minStr;
+   }
 
     public int getDeliveryTime() {return deliveryTime;}
 }
