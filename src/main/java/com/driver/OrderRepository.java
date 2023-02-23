@@ -101,7 +101,18 @@ return orderMap.size()-partnerOrdersMap.size();
         return countOrdersLeft;
         }
 
+    public String getLastDeliveryTimeByPartnerId(String partnerId) {
+int lastDeliveryTime = 0;
 
+List<String>ordersId = partnerOrdersMap.get(partnerId);
+
+for(String s : ordersId){
+
+    lastDeliveryTime = Math.max(lastDeliveryTime,orderMap.get(ordersId).getDeliveryTime());
+
+}
+return Order.getTimeAsString(lastDeliveryTime);
+        }
 
     public String deletePartnerById(String partnerId) {
             List<String>ordersIds = partnerOrdersMap.get(partnerId);
@@ -115,12 +126,21 @@ return orderMap.size()-partnerOrdersMap.size();
         return "done";
     }
 
+
     public String deleteOrderById(String orderId) {
-      return "";
+            orderMap.remove(orderId);
+            if(orderPartnerPair.containsKey(orderId)) {
+                String partnerId = orderPartnerPair.get(orderId);
+                orderPartnerPair.remove(orderId);
+
+
+                partnerOrdersMap.get(partnerId).remove(orderId);
+            DeliveryPartner deliveryPartner=   partnerMap.get(partnerId);
+            deliveryPartner.setNumberOfOrders(partnerOrdersMap.get(partnerId).size());
+            }
+      return "Successfully";
 
     }
 
-    public String getLastDeliveryTimeByPartnerId(String partnerId) {
-        return "1";
-    }
+
 }
