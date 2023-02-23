@@ -34,11 +34,11 @@ public class Order {
 
 
 
-   public static int getTimeAsInt(String deliveryTime){
+   public static int getDeliveryTimeAsInt(String deliveryTime){
         return  (Integer.parseInt(deliveryTime.substring(0,2))*60)+ Integer.parseInt(deliveryTime.substring(3));
    }
 
-   public static String getTimeAsString(int deliveryTime){
+   public static String getDeliveryTimeAsString(int deliveryTime){
         int hours = deliveryTime/60;
         int min = deliveryTime%60;
 
