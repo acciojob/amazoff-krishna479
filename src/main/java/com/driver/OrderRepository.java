@@ -14,18 +14,18 @@ public class OrderRepository {
     HashMap<String,DeliveryPartner>partnerMap = new HashMap<>();
     HashMap<String ,String> orderPartnerPair= new HashMap<>();//
     HashMap<String,List<String>> partnerOrdersMap = new HashMap<>();
-        public String addOrder(Order order) {
-        orderMap.put((order.getId()),order);
-        return "done";
+        public void addOrder(Order order) {
+        orderMap.put(order.getId(),order);
+
         }
 
-    public String addPartner(String partnerId) {
+    public void addPartner(String partnerId) {
             partnerMap.put(partnerId,new DeliveryPartner(partnerId));
-            return "Done";
+
 
     }
 
-    public String addOrderPartnerPair(String orderId, String partnerId) {
+    public void addOrderPartnerPair(String orderId, String partnerId) {
 
 
          List<String>list = partnerOrdersMap.getOrDefault(partnerId,new ArrayList<>());
@@ -39,7 +39,7 @@ public class OrderRepository {
     deliveryPartner.setNumberOfOrders(list.size());
 
 
-        return "successfully done";
+
 
 
     }
@@ -114,7 +114,7 @@ for(String s : ordersId){
 return Order.getTimeAsString(lastDeliveryTime);
         }
 
-    public String deletePartnerById(String partnerId) {
+    public void deletePartnerById(String partnerId) {
             List<String>ordersIds = partnerOrdersMap.get(partnerId);
 
             for(String ordersId : ordersIds){
@@ -123,11 +123,11 @@ return Order.getTimeAsString(lastDeliveryTime);
 
         partnerMap.remove(partnerId);
         partnerOrdersMap.remove(partnerId);
-        return "done";
+
     }
 
 
-    public String deleteOrderById(String orderId) {
+    public void deleteOrderById(String orderId) {
             orderMap.remove(orderId);
             if(orderPartnerPair.containsKey(orderId)) {
                 String partnerId = orderPartnerPair.get(orderId);
@@ -135,10 +135,10 @@ return Order.getTimeAsString(lastDeliveryTime);
 
 
                 partnerOrdersMap.get(partnerId).remove(orderId);
-            DeliveryPartner deliveryPartner=   partnerMap.get(partnerId);
-            deliveryPartner.setNumberOfOrders(partnerOrdersMap.get(partnerId).size());
+
+            partnerMap.get(partnerId).setNumberOfOrders(partnerOrdersMap.get(partnerId).size());
             }
-      return "Successfully";
+
 
     }
 
